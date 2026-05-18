@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
+use App\Models\ContactMessage;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,18 +17,49 @@ Route::get('/', function () {
     ]);
 });
 Route::get('/contact', function () {
-    return Inertia::render('Contact');
+    return Inertia::render('Contact', [
+        'recaptchaSiteKey' => env('RECAPTCHA_SITE_KEY', ''),
+    ]);
 })->name('contact');
+
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $analyticsData = [];
+
+    // Safely try to load analytics so the page doesn't break if not configured yet
+    try {
+        if (class_exists(\Spatie\Analytics\Facades\Analytics::class)) {
+            $analyticsData = \Spatie\Analytics\Facades\Analytics::fetchTotalVisitorsAndPageViews(\Spatie\Analytics\Period::days(7))
+                ->map(function ($day) {
+                    return [
+                        'date' => $day['date']->format('M j'),
+                        'visitors' => $day['activeUsers'] ?? $day['visitors'] ?? 0,
+                        'pageViews' => $day['screenPageViews'] ?? $day['pageViews'] ?? 0,
+                    ];
+                });
+        }
+    } catch (\Exception $e) {
+    }
+
+    return Inertia::render('Dashboard', [
+        'messages' => ContactMessage::orderBy('created_at', 'desc')->paginate(5),
+        'totalMessages' => ContactMessage::count(),
+        'analytics' => $analyticsData,
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+    Route::get('/messages/{id}', [AdminController::class, 'show'])->name('show');
+    Route::delete('/messages/{id}', [AdminController::class, 'destroy'])->name('destroy');
 });
 
 require __DIR__ . '/auth.php';
