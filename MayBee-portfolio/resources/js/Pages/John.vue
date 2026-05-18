@@ -83,7 +83,7 @@ const handleTrigger = () => {
             class="transition-colors duration-500"
             :class="isChaosMode ? 'bg-yellow-100 animate-pulse' : 'bg-slate-50'"
         >
-            <div class="max-w-3xl mx-auto py-16 px-6 sm:py-24 sm:px-8">
+            <div class="max-w-5xl mx-auto py-16 px-6 sm:py-24 sm:px-8">
                 <!-- Header Section -->
                 <header class="mb-12">
                     <h1

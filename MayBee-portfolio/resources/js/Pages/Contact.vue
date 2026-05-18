@@ -209,7 +209,14 @@ const submit = async () => {
                                     type="text"
                                     placeholder="John Bee"
                                     class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200 focus:border-yellow-400 focus:bg-white focus:ring-4 focus:ring-yellow-400/20"
+                                    required
                                 />
+                                <div
+                                    v-if="form.errors.name"
+                                    class="text-sm font-semibold text-red-500"
+                                >
+                                    {{ form.errors.name }}
+                                </div>
                             </div>
 
                             <!-- Email -->
@@ -225,7 +232,14 @@ const submit = async () => {
                                     type="email"
                                     placeholder="john@example.com"
                                     class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200 focus:border-yellow-400 focus:bg-white focus:ring-4 focus:ring-yellow-400/20"
+                                    required
                                 />
+                                <div
+                                    v-if="form.errors.email"
+                                    class="text-sm font-semibold text-red-500"
+                                >
+                                    {{ form.errors.email }}
+                                </div>
                             </div>
 
                             <!-- Message -->
@@ -241,7 +255,14 @@ const submit = async () => {
                                     rows="6"
                                     placeholder="Tell me about your project..."
                                     class="w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200 focus:border-yellow-400 focus:bg-white focus:ring-4 focus:ring-yellow-400/20"
+                                    required
                                 ></textarea>
+                                <div
+                                    v-if="form.errors.message"
+                                    class="text-sm font-semibold text-red-500"
+                                >
+                                    {{ form.errors.message }}
+                                </div>
                             </div>
 
                             <!-- Submit -->
