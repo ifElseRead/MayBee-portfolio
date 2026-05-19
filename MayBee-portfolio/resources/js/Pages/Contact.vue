@@ -2,6 +2,7 @@
 import { Head, Link, useForm, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
+import Seo from "@/Components/Seo.vue";
 
 const page = usePage();
 const recaptchaSiteKey = page.props.recaptchaSiteKey || "";
@@ -78,7 +79,12 @@ const submit = async () => {
 </script>
 
 <template>
-    <Head title="Contact | John Murphy" />
+    <Seo
+        title="Contact John | Murfy.uk"
+        description="Get in touch to discuss web application development, Laravel/Vue technical architecture, or beekeeping logistics."
+        url="https://murfy.uk/contact"
+        image="/images/contact-preview.jpg"
+    />
 
     <PublicLayout>
         <div class="relative overflow-hidden">

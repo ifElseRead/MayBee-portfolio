@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import PublicLayout from "@/Layouts/PublicLayout.vue";
+import Seo from "@/Components/Seo.vue";
 
 // Reactive State
 const clickCount = ref(0);
@@ -76,7 +77,11 @@ const handleTrigger = () => {
 </script>
 
 <template>
-    <Head title="John | Web Developer & Beekeeper" />
+    <Seo
+        title="John | Laravel Developer & Beekeeper"
+        description="Building Laravel and Vue applications with a focus on clean architecture and practical solutions."
+        url="https://murfy.uk"
+    />
 
     <PublicLayout>
         <div
