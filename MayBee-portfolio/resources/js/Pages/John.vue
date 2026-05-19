@@ -83,12 +83,12 @@ const handleTrigger = () => {
             class="transition-colors duration-500"
             :class="isChaosMode ? 'bg-yellow-100 animate-pulse' : 'bg-slate-50'"
         >
-            <div class="max-w-5xl mx-auto py-16 px-6 sm:py-24 sm:px-8">
+            <div class="max-w-5xl mx-auto py-10 px-2 sm:py-24 sm:px-8">
                 <!-- Header Section -->
                 <header class="mb-12">
                     <h1
                         @click="handleTrigger"
-                        class="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-4 cursor-pointer select-none hover:text-yellow-500 transition-all duration-300 inline-block active:scale-95"
+                        class="text-4xl sm:text-4xl mb-6 font-extrabold tracking-tight text-slate-900 mb-4 cursor-pointer select-none hover:text-yellow-500 transition-all duration-300 inline-block active:scale-95"
                     >
                         {{ titleText }}
                     </h1>
@@ -113,9 +113,9 @@ const handleTrigger = () => {
                             The Intro
                         </h2>
                         <p class="text-lg text-slate-700 leading-relaxed mt-2">
-                            I’m an Irish guy currently surviving in the UK 🇮🇪🇬🇧.
-                            I build modern web apps using PHP/Laravel, JS/Vue,
-                            and my one true love... Tailwind CSS 💟.
+                            I’m an Irish guy currently loving life in the UK
+                            🇮🇪🇬🇧. I build modern web apps using PHP/Laravel,
+                            JS/Vue, and my one true love... Tailwind CSS 💟.
                         </p>
                     </section>
 
@@ -149,9 +149,9 @@ const handleTrigger = () => {
                             Off the Keyboard
                         </h2>
                         <p class="text-lg text-slate-700 leading-relaxed mt-2">
-                            When I'm not untangling spaghetti code, I'm a
-                            budding beekeeper 🐝. If you think debugging is
-                            hard, try reasoning with 50,000 stinging insects.
+                            When I'm not untangling spaghetti code, I'm a new
+                            beekeeper 🐝. If you think debugging is hard, try
+                            reasoning with 50,000 stinging insects.
                         </p>
                     </section>
 
@@ -175,7 +175,8 @@ const handleTrigger = () => {
                                     >📦 The Staples:</span
                                 >
                                 <span class="text-slate-600"
-                                    >PHP, JavaScript, MySQL, Git</span
+                                    >PHP, JavaScript (ES6+), SQL, Git & GitHub,
+                                    Pest (Test-Driven Development)</span
                                 >
                             </li>
                             <li
@@ -186,9 +187,11 @@ const handleTrigger = () => {
                                     >🏋️ The Heavy Lifters:</span
                                 >
                                 <span class="text-slate-600"
-                                    >Laravel, Vue, Tailwind CSS</span
+                                    >Laravel, Vue 3, Inertia.js, Tailwind
+                                    CSS</span
                                 >
                             </li>
+
                             <li
                                 class="flex flex-col sm:flex-row sm:items-start"
                             >
@@ -197,7 +200,8 @@ const handleTrigger = () => {
                                     >🍯 The Glue:</span
                                 >
                                 <span class="text-slate-600"
-                                    >APIs and sheer willpower</span
+                                    >RESTful APIs, NGINX, Certbot, Webhooks &
+                                    Willpower</span
                                 >
                             </li>
                         </ul>
