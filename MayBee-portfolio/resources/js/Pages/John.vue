@@ -46,7 +46,7 @@ const handleTrigger = () => {
         titleText.value = titles[clickCount.value - 1];
     } else if (clickCount.value === 4) {
         subTitleText.value =
-            "I am actually 50,000 bees in a trench coat masquerading as a web developer. 🐝🧥";
+            "I am actually 60,000 bees in a trench coat masquerading as a web developer. 🐝🧥";
         titleText.value = "Bzzzzzz 🐝";
     } else if (clickCount.value === 7) {
         subTitleText.value =
@@ -156,7 +156,7 @@ const handleTrigger = () => {
                         <p class="text-lg text-slate-700 leading-relaxed mt-2">
                             When I'm not untangling spaghetti code, I'm a new
                             beekeeper 🐝. If you think debugging is hard, try
-                            reasoning with 50,000 stinging insects.
+                            reasoning with 60,000 stinging insects.
                         </p>
                     </section>
 

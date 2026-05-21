@@ -63,3 +63,17 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 });
 
 require __DIR__ . '/auth.php';
+
+// Catch-all fallback route to cleanly handle 404s
+Route::fallback(function () {
+    // If an Inertia <Link> triggered the 404, force the browser to do a full page reload
+    if (request()->header('X-Inertia')) {
+        return Inertia::location(url()->current());
+    }
+
+    if (view()->exists('errors.404')) {
+        return response()->view('errors.404', [], 404);
+    }
+
+    abort(404);
+});
