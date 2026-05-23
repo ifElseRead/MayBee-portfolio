@@ -17,25 +17,21 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            # 1. Navigate to your deployment workspace directory
-            cd /var/www/maybee-portfolio/MayBee-portfolio
+            # 1. Step dynamically into your custom repository folder variable
+            cd ${{ vars.TARGET_DIR }}
 
-            # 2. Force ownership back to root so Git can safely manipulate the files
+            # 2. Reclaim ownership states over container build items
             chown -R root:root .
 
-            # 3. Force-wipe any lingering untracked assets or build artifacts
+            # 3. Purge old asset layouts and clean the branch tracking matrix
             git reset --hard
             git clean -fd
 
-            # 4. Pull down the freshest code from your main GitHub branch
+            # 4. Fetch the freshest changes from GitHub upstream
             git fetch origin main
             git reset --hard origin/main
 
-            # 5. Handle backend dependencies safely inside the Docker container
+            # 5. Re-run ecosystem setups and clear optimized asset maps
             docker compose exec -T app composer install --no-interaction --optimize-autoloader
-
-            # 6. Recompile your Vite production assets over the shared volume pipeline
             docker compose exec -T app npm run build
-
-            # 7. Flush out old optimization cache maps completely
             docker compose exec -T app php artisan optimize:clear

@@ -302,7 +302,7 @@ const submit = async () => {
                             <h2
                                 class="text-2xl font-black tracking-tight text-slate-900"
                             >
-                                Status and how to
+                                Projects & Hives status
                             </h2>
 
                             <p class="mt-2 text-slate-600">
