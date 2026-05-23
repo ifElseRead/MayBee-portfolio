@@ -23,14 +23,14 @@ jobs:
             # 2. Reclaim ownership states over container build items
             chown -R root:root .
 
-            # 3. Pull updates first so Git learns what files are now tracked
+            # 3. FETCH AND RESET FIRST (Crucial: This protects your compose file!)
             git fetch origin main
             git reset --hard origin/main
 
-            # 4. Now clean out safe in the knowledge of what files are tracked
+            # 4. NOW clean out actual untracked files safely
             git clean -fd
 
-            # 5. Run setup routines natively right here where docker-compose.yml lives
+            # 5. Run execution commands natively side-by-side with your compose file
             docker compose exec -T app composer install --no-interaction --optimize-autoloader
             docker compose exec -T app npm run build
             docker compose exec -T app php artisan optimize:clear
