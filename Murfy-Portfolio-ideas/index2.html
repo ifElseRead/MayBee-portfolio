@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>John | Web Developer & Beekeeper</title>
+    <!-- Your one true love: Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-slate-50 text-slate-800 antialiased selection:bg-yellow-300 selection:text-slate-900 font-sans"
+  >
+    <div class="max-w-3xl mx-auto py-16 px-6 sm:py-24 sm:px-8">
+      <!-- Header Section -->
+      <header class="mb-12">
+        <h1
+          id="easter-egg-trigger"
+          class="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-4 cursor-pointer select-none hover:text-yellow-500 transition-colors duration-300"
+        >
+          Hi, I'm John 👋
+        </h1>
+        <p
+          id="easter-egg-target"
+          class="text-xl sm:text-2xl text-slate-600 font-medium leading-relaxed transition-all duration-300"
+        >
+          I turn coffee into code and occasionally hang out with bees. 🐝☕
+        </p>
+      </header>
+
+      <!-- Main Content -->
+      <main class="space-y-12">
+        <!-- The Intro -->
+        <section>
+          <h2
+            class="text-2xl font-bold text-slate-900 mb-3 border-b-2 border-yellow-400 inline-block pb-1"
+          >
+            The Intro
+          </h2>
+          <p class="text-lg text-slate-700 leading-relaxed mt-2">
+            I’m an Irish guy currently surviving in the UK 🇮🇪🇬🇧 (mostly for the
+            weather, obviously). I build modern web apps using PHP/Laravel,
+            JS/Vue, and my one true love... Tailwind CSS 💟.
+          </p>
+        </section>
+
+        <!-- What I Do -->
+        <section>
+          <h2
+            class="text-2xl font-bold text-slate-900 mb-3 border-b-2 border-yellow-400 inline-block pb-1"
+          >
+            What I Do
+          </h2>
+          <div class="text-lg text-slate-700 leading-relaxed mt-2 space-y-4">
+            <p>
+              I care deeply about clean code, blazing-fast performance, and
+              building things that actually make logical sense. Am I an
+              omniscient coding god? No. I’m still figuring things out, but
+              that’s at least 80% of the fun 😎.
+            </p>
+            <p>
+              I spend my days tinkering with APIs, wrestling with dashboards,
+              and launching "experiments" that may or may not occasionally break
+              things ⚡. Some projects turn out to be absolute masterpieces.
+              Others... well, let's just call them character-building exercises.
+            </p>
+          </div>
+        </section>
+
+        <!-- Off the Keyboard -->
+        <section>
+          <h2
+            class="text-2xl font-bold text-slate-900 mb-3 border-b-2 border-yellow-400 inline-block pb-1"
+          >
+            Off the Keyboard
+          </h2>
+          <p class="text-lg text-slate-700 leading-relaxed mt-2">
+            When I'm not untangling spaghetti code, I'm a budding beekeeper 🐝.
+            If you think debugging is hard, try reasoning with 50,000 stinging
+            insects who don't care about your deploy schedule.
+          </p>
+        </section>
+
+        <!-- The Toolbox -->
+        <section
+          class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200 mt-8 hover:shadow-md transition-shadow"
+        >
+          <h2 class="text-2xl font-bold text-slate-900 mb-1">The Toolbox 🛠️</h2>
+          <p class="text-sm text-slate-500 italic mb-6">
+            (aka the things I Google on a daily basis)
+          </p>
+
+          <ul class="space-y-4 text-lg">
+            <li class="flex flex-col sm:flex-row sm:items-start">
+              <span class="font-bold w-48 shrink-0 text-slate-900"
+                >📦 The Staples:</span
+              >
+              <span class="text-slate-600">PHP, JavaScript, MySQL, Git</span>
+            </li>
+            <li class="flex flex-col sm:flex-row sm:items-start">
+              <span class="font-bold w-48 shrink-0 text-slate-900"
+                >🏋️ The Heavy Lifters:</span
+              >
+              <span class="text-slate-600">Laravel, Vue, Tailwind CSS</span>
+            </li>
+            <li class="flex flex-col sm:flex-row sm:items-start">
+              <span class="font-bold w-48 shrink-0 text-slate-900"
+                >☁️ The Clouds:</span
+              >
+              <span class="text-slate-600"
+                >AWS, DigitalOcean, Laravel Cloud</span
+              >
+            </li>
+            <li class="flex flex-col sm:flex-row sm:items-start">
+              <span class="font-bold w-48 shrink-0 text-slate-900"
+                >🍯 The Glue:</span
+              >
+              <span class="text-slate-600">APIs and sheer willpower</span>
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer
+        class="mt-16 pt-8 border-t border-slate-200 text-center text-slate-500"
+      >
+        <p>&copy; 2026 John. Built with ☕, 🐝, and sheer willpower.</p>
+      </footer>
+    </div>
+
+    <script>
+      const trigger = document.getElementById("easter-egg-trigger");
+      const target = document.getElementById("easter-egg-target");
+      let clickCount = 0;
+
+      // Your custom titles array
+      const titles = ["Not Jon", "But John", "Still, just John 😎"];
+
+      trigger.addEventListener("click", () => {
+        // Add a quick "boop" animation on every click
+        trigger.style.transform = "scale(0.95)";
+        setTimeout(() => (trigger.style.transform = "scale(1)"), 150);
+
+        // Cycle through the titles array first
+        if (clickCount < titles.length) {
+          trigger.innerText = titles[clickCount];
+        }
+        // Then escalate to the bee jokes
+        else if (clickCount === 3) {
+          target.innerHTML =
+            "I am actually 50,000 bees in a trench coat masquerading as a web developer. 🐝🧥";
+          trigger.innerText = "Bzzzzzz 🐝";
+        } else if (clickCount === 6) {
+          target.innerHTML =
+            "Okay, stop poking me. The hive is getting agitated. 🛑🐝";
+          target.classList.add("text-red-500", "font-bold");
+        } else if (clickCount === 10) {
+          // Full chaos mode
+          trigger.innerText = "ABORT! HIVE COMPROMISED! 🚨";
+          target.innerHTML = "DEPLOYING TACTICAL SWARM! 🐝🐝🐝🐝🐝🐝";
+          document.body.classList.add("animate-pulse", "bg-yellow-100");
+
+          // Reset everything to normal after 4 seconds
+          setTimeout(() => {
+            clickCount = -1; // Set to -1 so the increment at the bottom resets it to 0
+            document.body.classList.remove("animate-pulse", "bg-yellow-100");
+            target.classList.remove("text-red-500", "font-bold");
+            trigger.innerText = "Hi, I'm John 👋";
+            target.innerHTML =
+              "I turn coffee into code and occasionally hang out with bees. 🐝☕";
+          }, 4000);
+        }
+
+        // Increment the click counter unless we are in the reset phase
+        if (clickCount !== -1) {
+          clickCount++;
+        } else {
+          clickCount = 0;
+        }
+      });
+    </script>
+  </body>
+</html>

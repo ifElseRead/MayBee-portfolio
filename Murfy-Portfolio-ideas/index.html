@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>John</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #f8fafc;
+        color: #111;
+        padding: 60px 20px;
+        max-width: 750px;
+        margin: auto;
+        line-height: 1.7;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        cursor: pointer;
+      }
+
+      h1 span {
+        color: #22c55e;
+      }
+
+      p {
+        margin-bottom: 14px;
+        font-size: 1.05rem;
+      }
+
+      .intro {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #1f2937;
+      }
+
+      a {
+        color: #22c55e;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(34, 197, 94, 0.3);
+      }
+
+      a:hover {
+        border-bottom: 1px solid #22c55e;
+      }
+
+      .section {
+        margin-top: 50px;
+      }
+
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .tag {
+        padding: 6px 14px;
+        background: #ecfdf5;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        transition: 0.2s;
+      }
+
+      .tag:hover {
+        transform: scale(1.05);
+      }
+
+      .highlight {
+        color: #22c55e;
+        font-weight: 600;
+      }
+
+      /* ✨ Updated quote styling */
+      .fun-line {
+        margin: 30px 0;
+        padding: 16px 20px;
+        font-style: italic;
+        color: #065f46;
+        background: #ecfdf5;
+        /* border-left: 4px solid #22c55e; */
+        border-radius: 8px;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        position: relative;
+
+        opacity: 0;
+        transform: translateY(5px);
+        animation: fadeIn 0.6s ease forwards;
+      }
+
+      .fun-line::before {
+        content: "“";
+        font-size: 2rem;
+        position: absolute;
+        left: 10px;
+        top: -5px;
+        color: rgba(34, 197, 94, 0.4);
+      }
+
+      .fun-line::after {
+        content: "”";
+        font-size: 2rem;
+        position: absolute;
+        right: 10px;
+        bottom: -10px;
+        color: rgba(34, 197, 94, 0.4);
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .terminal {
+        font-family: monospace;
+        background: #e5e7eb;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 onclick="changeTitle()">Hi, I'm <span>John</span> 👋</h1>
+
+    <p class="intro">An Irish guy living in the UK 🇮🇪🇬🇧</p>
+
+    <p>
+      I like to build modern web apps with PHP/Laravel, JS/Vue, oh! and not to
+      forget...Tailwind CSS 💟
+    </p>
+
+    <p>
+      I care about clean code, good performance, and things that actually make
+      sense.
+    </p>
+
+    <p id="randomLine" class="fun-line"></p>
+
+    <p>
+      I tinker with APIs, dashboards, and a few experiments that may or may not
+      break things ⚡
+    </p>
+
+    <p>Some turned out great. Some… were learning experiences</p>
+
+    <p>Also a budding beekeeper 🐝</p>
+
+    <div class="section">
+      <p><strong>What I use 🛠️</strong></p>
+      <div class="skills">
+        <div class="tag">PHP</div>
+        <div class="tag">Laravel</div>
+        <div class="tag">JavaScript</div>
+        <div class="tag">Vue</div>
+        <div class="tag">MySQL</div>
+        <div class="tag">APIs</div>
+        <div class="tag">Git</div>
+        <div class="tag">Tailwind CSS</div>
+        <div class="tag">AWS</div>
+        <div class="tag">DigitalOcean</div>
+        <div class="tag">Laravel Cloud</div>
+      </div>
+    </div>
+
+    <div class="section"></div>
+
+    <script>
+      const lines = [
+        "debugging is just solving puzzles with consequences 🕵️‍♂️",
+        "yes, it worked locally ✅",
+        "I spend time making things slightly faster ⚡",
+        "still figuring things out — but that's the fun part 😎",
+        "sometimes the bug fixes itself (I don’t ask questions 😅)",
+      ];
+
+      const selectedLine = lines[Math.floor(Math.random() * lines.length)];
+
+      document.getElementById("randomLine").innerText = `"${selectedLine}"`;
+
+      let titleIndex = 0;
+
+      function changeTitle() {
+        const titles = [
+          "Not Jon",
+          "But John",
+          "Still, just John 😎",
+          "Back to building stuff...",
+        ];
+
+        document.querySelector("h1").innerText = titles[titleIndex];
+        titleIndex = (titleIndex + 1) % titles.length;
+      }
+    </script>
+  </body>
+</html>
