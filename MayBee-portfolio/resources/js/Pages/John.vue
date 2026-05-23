@@ -181,7 +181,7 @@ const handleTrigger = () => {
                                 >
                                 <span class="text-slate-600"
                                     >PHP, JavaScript (ES6+), SQL, Git & GitHub,
-                                    Pest (Test-Driven Development)</span
+                                    Linux, Pest (Test-Driven Development)</span
                                 >
                             </li>
                             <li
