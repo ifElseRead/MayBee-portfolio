@@ -23,7 +23,7 @@ jobs:
             # 2. Reclaim ownership states over container build items
             chown -R root:root .
 
-            # 3. Purge old asset layouts and clean the branch tracking matrix
+            # 3. Purge untracked variations (your compose file is safe now!)
             git reset --hard
             git clean -fd
 
@@ -31,7 +31,7 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # 5. Run setup routines natively right here where docker-compose.yml lives
+            # 5. Run execution commands natively side-by-side with your compose file
             docker compose exec -T app composer install --no-interaction --optimize-autoloader
             docker compose exec -T app npm run build
             docker compose exec -T app php artisan optimize:clear
