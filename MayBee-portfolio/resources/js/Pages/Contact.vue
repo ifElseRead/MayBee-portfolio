@@ -331,7 +331,7 @@ const submit = async () => {
                             >
                                 <div class="text-sm text-slate-500">Email</div>
                                 <div class="mt-1 font-bold text-slate-900">
-                                    Use the form above.
+                                    Use the form above...
                                 </div>
                             </a>
 
