@@ -30,7 +30,7 @@ jobs:
             # 4. NOW clean out actual untracked files safely
             git clean -fd
 
-            # 5. Run execution commands natively side-by-side with your compose file
-            docker compose exec -T app composer install --no-interaction --optimize-autoloader
-            docker compose exec -T app npm run build
-            docker compose exec -T app php artisan optimize:clear
+            # 5. Run execution commands specifying the container's internal native working directory
+            docker compose exec --workdir /var/www -T app composer install --no-interaction --optimize-autoloader
+            docker compose exec --workdir /var/www -T app npm run build
+            docker compose exec --workdir /var/www -T app php artisan optimize:clear
