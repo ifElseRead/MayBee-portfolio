@@ -23,14 +23,14 @@ jobs:
             # 2. Reclaim ownership states over container build items
             chown -R root:root .
 
-            # 3. FETCH AND RESET FIRST (Crucial: This protects your compose file!)
+            # 3. Pull down fresh code records first
             git fetch origin main
             git reset --hard origin/main
 
-            # 4. NOW clean out actual untracked files safely
+            # 4. Clean out actual untracked files safely
             git clean -fd
 
-            # 5. Run execution commands specifying the container's internal native working directory
-            docker compose exec --workdir /var/www -T app composer install --no-interaction --optimize-autoloader
-            docker compose exec --workdir /var/www -T app npm run build
-            docker compose exec --workdir /var/www -T app php artisan optimize:clear
+            # 5. Use targeted "run" containers to process your stack builds completely detached from the host namespace
+            docker compose run --rm app composer install --no-interaction --optimize-autoloader
+            docker compose run --rm app npm run build
+            docker compose run --rm app php artisan optimize:clear
