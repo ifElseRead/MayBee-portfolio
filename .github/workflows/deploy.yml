@@ -18,7 +18,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             # 1. Step dynamically into your custom repository folder variable
-            cd ${{ secrets.TARGET_DIR }}
+            cd /var/www/maybee-portfolio
 
             # 2. Reclaim ownership states over container build items
             chown -R root:root .
