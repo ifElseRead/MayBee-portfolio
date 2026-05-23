@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+    # The PHP-FPM & Node Application Container
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: maybee-portfolio-app
+        container_name: maybee_portfolio_app
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        volumes:
+            - .:/var/www
+        networks:
+            - portfolio-network
+
+    # The Nginx Web Server Container
+    webserver:
+        image: nginx:alpine
+        container_name: maybee_portfolio_nginx
+        restart: unless-stopped
+        ports:
+            - "8080:80"
+        volumes:
+            - .:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d/
+        networks:
+            - portfolio-network
+
+networks:
+    portfolio-network:
+        driver: bridge
