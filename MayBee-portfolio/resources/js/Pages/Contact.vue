@@ -302,11 +302,11 @@ const submit = async () => {
                             <h2
                                 class="text-2xl font-black tracking-tight text-slate-900"
                             >
-                                Status and other ways to reach me
+                                Status and how to
                             </h2>
 
                             <p class="mt-2 text-slate-600">
-                                Or summon me via coffee and vague bug reports.
+                                summon me via coffee and vague bug reports.
                             </p>
                         </div>
 
@@ -325,7 +325,7 @@ const submit = async () => {
                                 </div>
                             </a>
 
-                            <a
+                            <!-- <a
                                 href="#"
                                 class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 transition-all hover:-translate-y-1 hover:border-yellow-300 hover:bg-yellow-50"
                             >
@@ -333,13 +333,13 @@ const submit = async () => {
                                 <div class="mt-1 font-bold text-slate-900">
                                     Use the form above....
                                 </div>
-                            </a>
+                            </a> -->
 
                             <div
                                 class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4"
                             >
                                 <div class="text-sm text-slate-500">
-                                    Current Status
+                                    Project & Status
                                 </div>
                                 <div class="mt-1 font-bold text-slate-900">
                                     Puury.com
