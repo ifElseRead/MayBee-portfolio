@@ -18,7 +18,7 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             # 1. Step dynamically into your custom repository folder variable
-            cd ${{ vars.TARGET_DIR }}
+            cd ${{ secrets.TARGET_DIR }}
 
             # 2. Reclaim ownership states over container build items
             chown -R root:root .
