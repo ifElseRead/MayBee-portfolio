@@ -31,7 +31,7 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # 5. Point explicitly to the compose file sitting one level up
-            docker compose -f ../docker-compose.yml exec -T app composer install --no-interaction --optimize-autoloader
-            docker compose -f ../docker-compose.yml exec -T app npm run build
-            docker compose -f ../docker-compose.yml exec -T app php artisan optimize:clear
+            # 5. Run setup routines natively right here where docker-compose.yml lives
+            docker compose exec -T app composer install --no-interaction --optimize-autoloader
+            docker compose exec -T app npm run build
+            docker compose exec -T app php artisan optimize:clear
