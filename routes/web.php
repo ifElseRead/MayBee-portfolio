@@ -7,6 +7,7 @@ use App\Models\ContactMessage;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/', function () {
     return Inertia::render('John', [
@@ -41,6 +42,7 @@ Route::get('/dashboard', function () {
                 });
         }
     } catch (\Exception $e) {
+        Log::error('Google Analytics Dashboard Error: ' . $e->getMessage());
     }
 
     return Inertia::render('Dashboard', [
