@@ -13,9 +13,10 @@ class LogFailedLogin
      */
     public function handle(Failed $event): void
     {
+        // Record the failed login attempt
         LoginLog::create([
-            'user_id' => $event->user ? $event->user->id : null,
-            'email' => $event->credentials['email'] ?? null,
+            'user_id' => $event->user?->getAuthIdentifier(),
+            'email' => $event->credentials['email'] ?? Request::input('email'),
             'ip_address' => Request::ip(),
             'user_agent' => Request::userAgent(),
             'status' => 'failed',

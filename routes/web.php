@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
         'messages' => ContactMessage::orderBy('created_at', 'desc')->paginate(5),
         'totalMessages' => ContactMessage::count(),
         'analytics' => $analyticsData,
-        'loginLogs' => LoginLog::with('user')->latest()->take(50)->get(),
+        'loginLogs' => LoginLog::with('user')->latest()->paginate(3, ['*'], 'logins_page'),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

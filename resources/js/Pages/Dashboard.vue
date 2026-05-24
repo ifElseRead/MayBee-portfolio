@@ -11,13 +11,18 @@ const props = defineProps({
         default: () => [],
     },
     loginLogs: {
-        type: Array,
-        default: () => [],
+        type: Object,
+        default: () => ({ data: [] }),
     },
 });
 
 const paginationLinks = computed(() => {
     const links = props.messages?.meta?.links || props.messages?.links;
+    return Array.isArray(links) ? links : [];
+});
+
+const loginPaginationLinks = computed(() => {
+    const links = props.loginLogs?.meta?.links || props.loginLogs?.links;
     return Array.isArray(links) ? links : [];
 });
 </script>
@@ -163,7 +168,6 @@ const paginationLinks = computed(() => {
                                     v-if="paginationLinks.length > 3"
                                     class="mt-6 flex flex-wrap justify-center gap-1"
                                 >
-                                    Hello
                                     <template
                                         v-for="(link, index) in paginationLinks"
                                         :key="index"
@@ -202,9 +206,11 @@ const paginationLinks = computed(() => {
                             </div>
                         </div>
                         <div class="space-y-4">
-                            <template v-if="loginLogs && loginLogs.length > 0">
+                            <template
+                                v-if="(loginLogs.data || loginLogs).length > 0"
+                            >
                                 <div
-                                    v-for="log in loginLogs"
+                                    v-for="log in loginLogs.data || loginLogs"
                                     :key="log.id"
                                     class="rounded-2xl border border-slate-200 p-4 bg-slate-50 flex items-center justify-between gap-4"
                                 >
@@ -258,6 +264,37 @@ const paginationLinks = computed(() => {
                                 class="rounded-2xl border border-slate-200 p-6 text-gray-600 bg-slate-50"
                             >
                                 No logins recorded yet.
+                            </div>
+
+                            <!-- Login Logs Pagination -->
+                            <div
+                                v-if="loginPaginationLinks.length > 3"
+                                class="mt-6 flex flex-wrap justify-center gap-1"
+                            >
+                                <template
+                                    v-for="(
+                                        link, index
+                                    ) in loginPaginationLinks"
+                                    :key="index"
+                                >
+                                    <Link
+                                        v-if="link.url"
+                                        :href="link.url"
+                                        v-html="link.label"
+                                        preserve-scroll
+                                        class="px-3 py-1 text-sm border rounded-md transition-colors"
+                                        :class="
+                                            link.active
+                                                ? 'bg-yellow-500 text-white border-yellow-500'
+                                                : 'bg-white text-gray-700 hover:bg-gray-50 border-gray-300'
+                                        "
+                                    />
+                                    <span
+                                        v-else
+                                        v-html="link.label"
+                                        class="px-3 py-1 text-sm border rounded-md bg-gray-100 text-gray-400 cursor-not-allowed border-gray-200"
+                                    ></span>
+                                </template>
                             </div>
                         </div>
                     </div>

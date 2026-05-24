@@ -13,6 +13,7 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event): void
     {
+        // Record the successful login attempt
         LoginLog::create([
             'user_id' => $event->user->id,
             'email' => $event->user->email,
