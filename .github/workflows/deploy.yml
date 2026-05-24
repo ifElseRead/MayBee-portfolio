@@ -26,7 +26,7 @@ jobs:
 
             # 3. Clean out actual untracked files safely, EXCLUDING persistent local assets
             # This protects your database folder and storage assets from being wiped
-            git clean -fd -e database_persistent/ -e storage/
+            git clean -fd -e database_persistent/ -e storage/ -e docker-compose/nginx/
 
             # 4. Reclaim clean code layout ownership to root before installing dependencies
             chown -R root:root .
