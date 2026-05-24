@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+@php echo '<?xml version="1.0" encoding="UTF-8"@endphp'; ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <!-- Static Homepage -->
     <url>
         <loc>{{ url('/') }}</loc>
+        ...
         <lastmod>{{ now()->tz('UTC')->toAtomString() }}</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -15,7 +15,6 @@
         <priority>0.7</priority>
     </url>
 
-    <!-- Example of dynamically looping through records -->
     {{-- @foreach ($posts as $post)
         <url>
             <loc>{{ url("/posts/{$post->slug}") }}</loc>
