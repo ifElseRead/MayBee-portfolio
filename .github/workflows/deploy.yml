@@ -20,24 +20,27 @@ jobs:
             # 1. Step directly into your verified folder path
             cd /var/www/maybee-portfolio
 
-            # 2. Reclaim ownership states over container build items
-            chown -R root:root .
-
-            # 3. Pull down fresh code records first
+            # 2. Pull down fresh code records first
             git fetch origin main
             git reset --hard origin/main
 
-            # 4. Clean out actual untracked files safely
-            git clean -fd
+            # 3. Clean out actual untracked files safely, EXCLUDING persistent local assets
+            # This protects your database folder and storage assets from being wiped
+            git clean -fd -e database_persistent/ -e storage/
 
-            # 5. Create the SQLite file if it doesn't exist so Laravel doesn't crash
-            touch database/database.sqlite
+            # 4. Reclaim clean code layout ownership to root before installing dependencies
+            chown -R root:root .
 
-            # 6. Build the stack using targeted short-lived containers
+            # 5. Build the stack using targeted short-lived containers
             docker compose run --rm app composer install --no-interaction --optimize-autoloader
             docker compose run --rm app npm install
             docker compose run --rm app npm run build
 
-            # 7. Build the database tables, then clear the cache
+            # 6. Build the database tables, then clear the cache
             docker compose run --rm app php artisan migrate --force
             docker compose run --rm app php artisan optimize:clear
+
+            # 7. CRUCIAL PERMISSION FIX: Restore permissions to the web server user
+            # This ensures Laravel can write sessions, logs, and touch the SQLite file
+            chown -R www-data:www-data storage bootstrap/cache database_persistent
+            chmod -R 775 storage bootstrap/cache database_persistent
