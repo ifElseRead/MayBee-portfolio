@@ -36,18 +36,19 @@ jobs:
             docker compose run --rm app npm install
             docker compose run --rm app npm run build
 
-            # 6. Build the database tables, then clear the cache
-            docker compose run --rm app php artisan migrate --force
-            docker compose run --rm app php artisan optimize:clear
-
-            # 7. CRUCIAL PERMISSION FIX: Restore permissions to the web server user
-            # This ensures Laravel can write sessions, logs, and touch the SQLite file
-            chown -R www-data:www-data storage bootstrap/cache database_persistent
-            chmod -R 775 storage bootstrap/cache database_persistent
-            # Ensure the container itself registers the permission state at the end of deployment
-            docker compose exec -T app chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-            docker compose exec -T app chmod -R 775 /var/www/storage /var/www/bootstrap/cache
-
-            # 8. Restart the containers to apply all changes
+            # 6. Bring down old instances and BOOT UP the active containers first
             docker compose down
             docker compose up -d
+
+            # 7. Execute database updates on the active, running stack
+            docker compose exec -T app php artisan migrate --force
+            docker compose exec -T app php artisan optimize:clear
+
+            # 8. CRUCIAL PERMISSION RESCUE (Applied directly to the live containers)
+            # Fix Host permissions
+            chown -R www-data:www-data storage bootstrap/cache database_persistent
+            chmod -R 775 storage bootstrap/cache database_persistent
+
+            # Fix Container-side permissions for the database and framework assets
+            docker compose exec -T app chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache /var/www/database_persistent
+            docker compose exec -T app chmod -R 775 /var/www/storage /var/www/bootstrap/cache /var/www/database_persistent
