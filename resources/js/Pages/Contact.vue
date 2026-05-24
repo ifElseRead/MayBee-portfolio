@@ -339,7 +339,7 @@ const submit = async () => {
                                 class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4"
                             >
                                 <div class="text-sm text-slate-500">
-                                    Project & Status
+                                    Project
                                 </div>
                                 <div class="mt-1 font-bold text-slate-900">
                                     Puury.com
