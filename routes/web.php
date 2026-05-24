@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Models\ContactMessage;
+use App\Models\LoginLog;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +34,7 @@ Route::get('/dashboard', function () {
         'messages' => ContactMessage::orderBy('created_at', 'desc')->paginate(5),
         'totalMessages' => ContactMessage::count(),
         'analytics' => $analyticsData,
+        'loginLogs' => LoginLog::with('user')->latest()->take(50)->get(),
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
