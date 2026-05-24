@@ -15,7 +15,8 @@ return [
     */
 
     'analytics' => [
-        'property_id' => env('ANALYTICS_PROPERTY_ID'),
+        'property_id' => env('ANALYTICS_PROPERTY_ID'),       // Used by the dashboard to fetch data (Numeric ID)
+        'measurement_id' => env('ANALYTICS_MEASUREMENT_ID'), // Used by the frontend to send data (G-XXXXXX)
     ],
 
     'postmark' => [

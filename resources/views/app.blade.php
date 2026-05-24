@@ -16,9 +16,10 @@
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 
-    @if (config('services.analytics.property_id'))
+    @if (config('services.analytics.measurement_id'))
         <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.analytics.property_id') }}"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.analytics.measurement_id') }}">
+        </script>
         <script>
             window.dataLayer = window.dataLayer || [];
 
@@ -27,7 +28,7 @@
             }
             gtag('js', new Date());
 
-            gtag('config', '{{ config('services.analytics.property_id') }}');
+            gtag('config', '{{ config('services.analytics.measurement_id') }}');
         </script>
     @endif
 </head>
