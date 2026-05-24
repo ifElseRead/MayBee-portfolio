@@ -10,6 +10,10 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    loginLogs: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const paginationLinks = computed(() => {
@@ -182,6 +186,78 @@ const paginationLinks = computed(() => {
                                         ></span>
                                     </template>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Login Logs Section -->
+                <div
+                    class="mt-6 overflow-hidden bg-white shadow-sm sm:rounded-lg"
+                >
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-sm font-medium text-gray-500">
+                                Recent Logins
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <template v-if="loginLogs && loginLogs.length > 0">
+                                <div
+                                    v-for="log in loginLogs"
+                                    :key="log.id"
+                                    class="rounded-2xl border border-slate-200 p-4 bg-slate-50 flex items-center justify-between gap-4"
+                                >
+                                    <div class="overflow-hidden">
+                                        <div
+                                            class="font-semibold text-gray-900"
+                                        >
+                                            {{
+                                                log.user
+                                                    ? log.user.name
+                                                    : log.email ||
+                                                      "Unknown User"
+                                            }}
+                                        </div>
+                                        <div
+                                            class="text-sm text-gray-600 truncate max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
+                                            :title="log.user_agent"
+                                        >
+                                            {{ log.ip_address }} •
+                                            {{ log.user_agent }}
+                                        </div>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <span
+                                            class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+                                            :class="
+                                                log.status === 'success'
+                                                    ? 'bg-green-100 text-green-700'
+                                                    : 'bg-red-100 text-red-700'
+                                            "
+                                        >
+                                            {{ log.status }}
+                                        </span>
+                                        <div class="mt-1 text-xs text-gray-500">
+                                            {{
+                                                new Date(
+                                                    log.created_at,
+                                                ).toLocaleDateString()
+                                            }}
+                                            {{
+                                                new Date(
+                                                    log.created_at,
+                                                ).toLocaleTimeString()
+                                            }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div
+                                v-else
+                                class="rounded-2xl border border-slate-200 p-6 text-gray-600 bg-slate-50"
+                            >
+                                No logins recorded yet.
                             </div>
                         </div>
                     </div>
