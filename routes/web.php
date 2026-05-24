@@ -43,6 +43,9 @@ Route::get('/dashboard', function () {
         }
     } catch (\Exception $e) {
         Log::error('Google Analytics Dashboard Error: ' . $e->getMessage());
+
+        // Temporarily output the exact error to the browser
+        dd('Analytics API Error: ' . $e->getMessage());
     }
 
     return Inertia::render('Dashboard', [
