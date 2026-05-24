@@ -44,3 +44,6 @@ jobs:
             # This ensures Laravel can write sessions, logs, and touch the SQLite file
             chown -R www-data:www-data storage bootstrap/cache database_persistent
             chmod -R 775 storage bootstrap/cache database_persistent
+            # Ensure the container itself registers the permission state at the end of deployment
+            docker compose exec -T app chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+            docker compose exec -T app chmod -R 775 /var/www/storage /var/www/bootstrap/cache
