@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 
 const props = defineProps({
     messages: Object,
@@ -14,6 +14,10 @@ const props = defineProps({
         type: Object,
         default: () => ({ data: [] }),
     },
+    systemLogs: {
+        type: String,
+        default: "",
+    },
 });
 
 const paginationLinks = computed(() => {
@@ -25,6 +29,14 @@ const loginPaginationLinks = computed(() => {
     const links = props.loginLogs?.meta?.links || props.loginLogs?.links;
     return Array.isArray(links) ? links : [];
 });
+
+const clearLoginLogs = () => {
+    if (
+        confirm("Are you sure you want to permanently delete all login logs?")
+    ) {
+        router.delete("/admin/login-logs", { preserveScroll: true });
+    }
+};
 </script>
 
 <template>
@@ -204,6 +216,12 @@ const loginPaginationLinks = computed(() => {
                             <div class="text-sm font-medium text-gray-500">
                                 Recent Logins
                             </div>
+                            <!-- <button
+                                @click="clearLoginLogs"
+                                class="text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-800 border border-red-200 px-3 py-1 rounded-full transition-colors"
+                            >
+                                Clear Logs
+                            </button> -->
                         </div>
                         <div class="space-y-4">
                             <template
@@ -299,6 +317,26 @@ const loginPaginationLinks = computed(() => {
                         </div>
                     </div>
                 </div>
+
+                <!-- System Logs Section -->
+                <!-- <div
+                    class="mt-6 overflow-hidden bg-white shadow-sm sm:rounded-lg"
+                >
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-sm font-medium text-gray-500">
+                                System Logs (Last 100 lines)
+                            </div>
+                        </div>
+                        <div
+                            class="bg-gray-900 rounded-lg p-4 overflow-x-auto max-h-96 overflow-y-auto"
+                        >
+                            <pre
+                                class="text-xs text-green-400 font-mono"
+                            ><code v-if="systemLogs">{{ systemLogs }}</code><code v-else class="text-gray-500">No logs found in storage/logs/laravel.log.</code></pre>
+                        </div>
+                    </div>
+                </div> -->
             </div>
         </div>
     </AuthenticatedLayout>

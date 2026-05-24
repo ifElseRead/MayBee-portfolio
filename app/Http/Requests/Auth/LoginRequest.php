@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -43,6 +44,13 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         if ($this->input('email') !== 'hello@murfy.uk') {
+            RateLimiter::hit($this->throttleKey());
+
+            event(new Failed(config('auth.defaults.guard', 'web'), null, [
+                'email' => $this->input('email'),
+                'password' => $this->input('password'),
+            ]));
+
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);

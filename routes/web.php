@@ -30,11 +30,19 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('/dashboard', function () {
     $analyticsData = [];
 
+    $logPath = storage_path('logs/laravel.log');
+    $systemLogs = '';
+    if (file_exists($logPath)) {
+        $lines = file($logPath);
+        $systemLogs = empty($lines) ? '' : implode("", array_slice($lines, -100)); // Get the last 100 lines
+    }
+
     return Inertia::render('Dashboard', [
         'messages' => ContactMessage::orderBy('created_at', 'desc')->paginate(5),
         'totalMessages' => ContactMessage::count(),
         'analytics' => $analyticsData,
         'loginLogs' => LoginLog::with('user')->latest()->paginate(3, ['*'], 'logins_page'),
+        'systemLogs' => $systemLogs,
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
