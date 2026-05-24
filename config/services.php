@@ -14,6 +14,10 @@ return [
     |
     */
 
+    'analytics' => [
+        'property_id' => env('ANALYTICS_PROPERTY_ID'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],
