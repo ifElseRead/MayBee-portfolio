@@ -29,25 +29,6 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 Route::get('/dashboard', function () {
     $analyticsData = [];
 
-    // Safely try to load analytics so the page doesn't break if not configured yet
-    try {
-        if (class_exists(\Spatie\Analytics\Facades\Analytics::class)) {
-            $analyticsData = \Spatie\Analytics\Facades\Analytics::fetchTotalVisitorsAndPageViews(\Spatie\Analytics\Period::days(7))
-                ->map(function ($day) {
-                    return [
-                        'date' => $day['date']->format('M j'),
-                        'visitors' => $day['activeUsers'] ?? $day['visitors'] ?? 0,
-                        'pageViews' => $day['screenPageViews'] ?? $day['pageViews'] ?? 0,
-                    ];
-                });
-        }
-    } catch (\Exception $e) {
-        Log::error('Google Analytics Dashboard Error: ' . $e->getMessage());
-
-        // Temporarily output the exact error to the browser
-        dd('Analytics API Error: ' . $e->getMessage());
-    }
-
     return Inertia::render('Dashboard', [
         'messages' => ContactMessage::orderBy('created_at', 'desc')->paginate(5),
         'totalMessages' => ContactMessage::count(),

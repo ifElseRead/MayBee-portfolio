@@ -325,7 +325,7 @@ const submit = async () => {
                                 </div>
                             </a>
 
-                            <!-- <a
+                            <a
                                 href="#"
                                 class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 transition-all hover:-translate-y-1 hover:border-yellow-300 hover:bg-yellow-50"
                             >
@@ -333,7 +333,7 @@ const submit = async () => {
                                 <div class="mt-1 font-bold text-slate-900">
                                     Use the form above....
                                 </div>
-                            </a> -->
+                            </a>
 
                             <div
                                 class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4"
