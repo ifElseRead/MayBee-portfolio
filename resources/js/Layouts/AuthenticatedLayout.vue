@@ -25,20 +25,22 @@ const showingNavigationDropdown = ref(false);
                                     class="flex items-end gap-0.5 group"
                                 >
                                     <svg
-                                        class="w-11 h-11 text-slate-900 shrink-0 translate-y-[3px] group-hover:text-yellow-500 transition-colors duration-300"
+                                        class="w-11 h-11 text-slate-900 shrink-0 translate-y-[3px] transition-colors duration-300"
                                         viewBox="0 0 100 100"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <polygon
+                                            class="group-hover:text-yellow-500 transition-colors duration-300"
                                             points="50,5 90,27.5 90,72.5 50,95 10,72.5 10,27.5"
                                             stroke="currentColor"
                                             stroke-width="9"
                                             stroke-linejoin="round"
                                         />
                                         <path
+                                            class="text-yellow-500 group-hover:text-slate-900 transition-colors duration-300"
                                             d="M25 65V35L50 55L75 35V65"
-                                            stroke="#eab308"
+                                            stroke="currentColor"
                                             stroke-width="9"
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
