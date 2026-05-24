@@ -11,7 +11,7 @@ import { Link, Head } from "@inertiajs/vue3"; // Added Head here
         class="min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-yellow-300 selection:text-slate-900 font-sans"
     >
         <div class="relative max-w-5xl mx-auto px-3 py-3 sm:px-8 sm:py-10">
-            <nav class="w-full flex items-center justify-between mb-16">
+            <nav class="w-full flex items-center justify-between mb-3">
                 <Link href="/" class="flex items-end gap-0.5 group">
                     <svg
                         class="w-11 h-11 text-slate-900 shrink-0 translate-y-[3px] transition-colors duration-300"
