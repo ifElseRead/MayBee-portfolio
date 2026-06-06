@@ -8,8 +8,8 @@ class FeedController extends Controller
 {
     public function __invoke()
     {
-        $posts = Post::where('is_published', true)
-            ->latest()
+        $posts = Post::published()
+            ->latest('published_at')
             ->take(20)
             ->get();
 

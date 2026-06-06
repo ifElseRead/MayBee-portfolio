@@ -9,10 +9,11 @@ use Inertia\Inertia;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth', 'admin']);
-    }
+    // public function __construct()
+    // {
+    //     // Let web.php handle this, or change it to match your route middleware:
+    //     $this->middleware(['auth', 'verified']);
+    // }   
 
     public function messages()
     {

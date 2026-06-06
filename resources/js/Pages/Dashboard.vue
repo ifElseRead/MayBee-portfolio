@@ -37,6 +37,14 @@ const clearLoginLogs = () => {
         router.delete("/admin/login-logs", { preserveScroll: true });
     }
 };
+
+const deleteMessage = (id) => {
+    if (confirm("Are you sure you want to delete this message?")) {
+        router.delete(`/admin/messages/${id}`, {
+            preserveScroll: true,
+        });
+    }
+};
 </script>
 
 <template>
@@ -166,6 +174,13 @@ const clearLoginLogs = () => {
                                                 ).toLocaleDateString()
                                             }}
                                         </div>
+                                        <button
+                                            @click="deleteMessage(message.id)"
+                                            class="text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 hover:text-red-800 border border-red-100 px-2.5 py-1 rounded-full transition-colors"
+                                            title="Delete Message"
+                                        >
+                                            Delete
+                                        </button>
                                     </div>
                                 </template>
                                 <div
