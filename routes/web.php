@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\PostAdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BlogAdminController;
+use App\Http\Controllers\PostController;
 use App\Models\ContactMessage;
 use App\Models\LoginLog;
 use Illuminate\Foundation\Application;
@@ -25,6 +28,9 @@ Route::get('/contact', function () {
 })->name('contact');
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/sitemap.xml', function () {
     return response()->view('sitemap')->header('Content-Type', 'text/xml');
@@ -59,6 +65,16 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
     Route::get('/messages/{id}', [AdminController::class, 'show'])->name('show');
     Route::delete('/messages/{id}', [AdminController::class, 'destroy'])->name('destroy');
+
+
+    Route::get('/posts/generate', [BlogAdminController::class, 'create'])->name('posts.generate');
+    Route::post('/posts/generate', [BlogAdminController::class, 'store'])->name('posts.store');
+
+    Route::get('/posts', [PostAdminController::class, 'index'])->name('posts.index');
+    Route::get('/posts/{post}/edit', [PostAdminController::class, 'edit'])->name('posts.edit');
+    Route::patch('/posts/{post}', [PostAdminController::class, 'update'])->name('posts.update');
+    Route::post('/posts/{post}/regenerate', [PostAdminController::class, 'regenerate'])->name('posts.regenerate');
+    Route::post('/posts/{post}/generate-image', [PostAdminController::class, 'generateImage'])->name('posts.generate-image');
 });
 
 require __DIR__ . '/auth.php';

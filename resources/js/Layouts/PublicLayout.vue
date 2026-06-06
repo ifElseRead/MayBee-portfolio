@@ -54,6 +54,14 @@ import { Link, Head } from "@inertiajs/vue3"; // Added Head here
             <footer
                 class="mt-8 rounded-[2rem] border border-yellow-100 bg-yellow-50/80 p-8 text-center text-slate-700 shadow-sm shadow-yellow-100"
             >
+                <div class="mb-4 flex justify-center gap-6">
+                    <Link
+                        href="/posts"
+                        class="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+                    >
+                        Posts
+                    </Link>
+                </div>
                 <p class="text-base font-semibold text-slate-900">
                     © 2026 Murfy. Built with ☕, 🐝, and sheer willpower.
                 </p>

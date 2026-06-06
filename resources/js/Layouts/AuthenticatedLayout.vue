@@ -68,6 +68,20 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('admin.posts.generate')"
+                                    :active="route().current('admin.posts.*')"
+                                >
+                                    Blog Orchestrator
+                                </NavLink>
+                                <NavLink
+                                    :href="route('admin.posts.index')"
+                                    :active="
+                                        route().current('admin.posts.index')
+                                    "
+                                >
+                                    Review Posts
+                                </NavLink>
                             </div>
                         </div>
 
@@ -174,6 +188,18 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('admin.posts.generate')"
+                            :active="route().current('admin.posts.*')"
+                        >
+                            Blog Orchestrator
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('admin.posts.index')"
+                            :active="route().current('admin.posts.index')"
+                        >
+                            Review Posts
                         </ResponsiveNavLink>
                     </div>
 
