@@ -7,6 +7,7 @@ use App\Jobs\GenerateBlogPostJob;
 use App\Jobs\GenerateBlogImageJob;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -30,7 +31,17 @@ class PostAdminController extends Controller
             'status' => 'sometimes|in:draft,published,rejected',
             'created_at' => 'sometimes|date',
             'published_at' => 'nullable|date',
+            'banner_image' => 'nullable|image|max:5120', // validate image up to 5MB
         ]);
+
+        if ($request->hasFile('banner_image')) {
+            // Delete the old banner if it exists
+            if ($post->banner_image && Storage::disk('public')->exists($post->banner_image)) {
+                Storage::disk('public')->delete($post->banner_image);
+            }
+
+            $validated['banner_image'] = $request->file('banner_image')->store('blog-banners', 'public');
+        }
 
         $post->update($validated);
 

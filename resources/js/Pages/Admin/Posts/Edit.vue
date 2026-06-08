@@ -10,6 +10,23 @@ const promptForm = useForm({
     topic: props.post.prompt_topic || "",
 });
 
+const imageForm = useForm({
+    banner_image: null,
+    _method: "patch",
+});
+
+const submitImage = () => {
+    imageForm.post(route("admin.posts.update", props.post.id), {
+        preserveScroll: true,
+        forceFormData: true,
+        onSuccess: () => {
+            imageForm.reset("banner_image");
+            const fileInput = document.getElementById("banner_image");
+            if (fileInput) fileInput.value = null;
+        },
+    });
+};
+
 const formatDateForInput = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
@@ -117,7 +134,7 @@ const generateImage = async () => {
                             </p>
                             <img
                                 v-if="post.banner_image"
-                                :src="`/storage/blog-banners/${post.banner_image}`"
+                                :src="`/storage/${post.banner_image}`"
                                 :alt="post.title"
                                 class="mt-4 w-full rounded-lg shadow-sm border border-slate-200"
                             />
@@ -263,6 +280,60 @@ const generateImage = async () => {
                                         promptForm.processing
                                             ? "Regenerating..."
                                             : "Regenerate with New Prompt"
+                                    }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6"
+                    >
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">
+                            Upload Banner Image
+                        </h3>
+                        <p class="text-sm text-slate-600 mb-4">
+                            Upload a custom banner image for this post.
+                        </p>
+
+                        <form @submit.prevent="submitImage">
+                            <div class="mb-4">
+                                <label
+                                    for="banner_image"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Banner Image</label
+                                >
+                                <input
+                                    type="file"
+                                    id="banner_image"
+                                    @change="
+                                        imageForm.banner_image =
+                                            $event.target.files[0]
+                                    "
+                                    accept="image/*"
+                                    class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                    :disabled="imageForm.processing"
+                                />
+                                <div
+                                    v-if="imageForm.errors.banner_image"
+                                    class="text-red-500 text-sm mt-1"
+                                >
+                                    {{ imageForm.errors.banner_image }}
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    type="submit"
+                                    :disabled="
+                                        imageForm.processing ||
+                                        !imageForm.banner_image
+                                    "
+                                    class="w-full px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:opacity-50"
+                                >
+                                    {{
+                                        imageForm.processing
+                                            ? "Uploading..."
+                                            : "Upload Image"
                                     }}
                                 </button>
                             </div>
