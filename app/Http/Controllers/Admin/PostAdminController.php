@@ -31,7 +31,7 @@ class PostAdminController extends Controller
             'status' => 'sometimes|in:draft,published,rejected',
             'created_at' => 'sometimes|date',
             'published_at' => 'nullable|date',
-            'banner_image' => 'nullable|image|max:20480', // validate image up to 5MB
+            'banner_image' => 'nullable|image|max:5120', // validate image up to 5MB
         ]);
 
         if ($request->hasFile('banner_image')) {
@@ -40,7 +40,9 @@ class PostAdminController extends Controller
                 Storage::disk('public')->delete($post->banner_image);
             }
 
-            $validated['banner_image'] = $request->file('banner_image')->store('blog-banners', 'public');
+            $file = $request->file('banner_image');
+            $filename = Str::slug($post->title ?? 'banner') . '-' . time() . '.' . $file->extension();
+            $validated['banner_image'] = $file->storeAs('blog-banners', $filename, 'public');
         }
 
         $post->update($validated);
