@@ -32,6 +32,7 @@ class PostAdminController extends Controller
             'created_at' => 'sometimes|date',
             'published_at' => 'nullable|date',
             'banner_image' => 'nullable|image|max:5120', // validate image up to 5MB
+            'body' => 'nullable|string',
         ]);
 
         if ($request->hasFile('banner_image')) {
