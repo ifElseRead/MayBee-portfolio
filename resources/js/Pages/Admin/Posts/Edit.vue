@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
+import imageCompression from "browser-image-compression";
 
 const props = defineProps({
     post: Object,
@@ -14,6 +15,34 @@ const imageForm = useForm({
     banner_image: null,
     _method: "patch",
 });
+
+const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const options = {
+        maxSizeMB: 1, // Target a maximum file size of 1MB
+        maxWidthOrHeight: 1920, // Max dimensions to scale down large images
+        useWebWorker: true,
+        fileType: "image/webp", // Converts the image to webp natively
+    };
+
+    try {
+        const compressedBlob = await imageCompression(file, options);
+
+        // Strip out the old extension and construct a clean File instance
+        const originalName = file.name.replace(/\.[^/.]+$/, "");
+        imageForm.banner_image = new File(
+            [compressedBlob],
+            `${originalName}.webp`,
+            {
+                type: "image/webp",
+            },
+        );
+    } catch (error) {
+        console.error("Image compression failed:", error);
+    }
+};
 
 const submitImage = () => {
     imageForm.post(route("admin.posts.update", props.post.id), {
@@ -118,7 +147,6 @@ const generateImage = async () => {
             <div
                 class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-8"
             >
-                <!-- Main Post Content -->
                 <div
                     class="lg:col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg"
                 >
@@ -153,7 +181,6 @@ const generateImage = async () => {
                     </article>
                 </div>
 
-                <!-- Actions & Prompt Panel -->
                 <div class="space-y-6">
                     <div
                         class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6"
@@ -306,10 +333,7 @@ const generateImage = async () => {
                                 <input
                                     type="file"
                                     id="banner_image"
-                                    @change="
-                                        imageForm.banner_image =
-                                            $event.target.files[0]
-                                    "
+                                    @change="handleImageUpload"
                                     accept="image/*"
                                     class="mt-1 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                     :disabled="imageForm.processing"
