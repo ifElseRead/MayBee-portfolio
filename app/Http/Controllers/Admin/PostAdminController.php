@@ -54,7 +54,7 @@ class PostAdminController extends Controller
     public function regenerate(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'topic' => 'required|string|min:5|max:255',
+            'topic' => 'required|string|min:5|max:15000',
         ]);
 
         // Dispatch a new job with the updated topic

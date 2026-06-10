@@ -66,9 +66,8 @@
 <body>
     <div class="container">
         <h1>404</h1>
-        <h2>Hive Not Found 🐝</h2>
-        <p>It seems this page has buzzed off. Even my 60,000 debugging bees couldn't track down the URL you're looking
-            for. Let's get you back to the codebase.</p>
+        <h2>Page Not Found 🐝</h2>
+        <p>It seems this page has buzzed off. . Let's get you back to the home page.</p>
         <a href="{{ url('/') }}">Fly Back Home ↗</a>
     </div>
 </body>
