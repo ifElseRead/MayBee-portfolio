@@ -43,7 +43,7 @@ defineProps({
                             </p> -->
                             <img
                                 v-if="post.banner_image"
-                                :src="`/storage/blog-banners/${post.banner_image}`"
+                                :src="`/storage/${post.banner_image}`"
                                 :alt="post.title"
                                 class="w-full sm:rounded-lg shadow-sm border border-gray-200 mt-10"
                             />

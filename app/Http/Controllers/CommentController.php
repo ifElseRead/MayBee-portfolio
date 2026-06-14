@@ -15,6 +15,7 @@ class CommentController extends Controller
     {
         $validated = $request->validate([
             'author_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
             'content' => 'required|string|max:2000',
             'recaptcha_token' => 'required|string',
         ]);
@@ -25,6 +26,7 @@ class CommentController extends Controller
 
         $post->comments()->create([
             'author_name' => $validated['author_name'],
+            'email' => $validated['email'],
             'content' => $validated['content'],
         ]);
 

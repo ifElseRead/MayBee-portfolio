@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('post_id')->constrained()->cascadeOnDelete();
             $table->string('author_name');
+            $table->string('email');
             $table->text('content');
             $table->timestamps();
         });

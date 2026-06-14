@@ -6,18 +6,31 @@
             <div
                 v-for="comment in post.comments"
                 :key="comment.id"
-                class="p-4 bg-gray-50 rounded-lg"
+                class="p-4 bg-gray-50 rounded-lg flex gap-4"
             >
-                <div class="font-semibold flex items-center justify-between">
-                    <span>{{ comment.author_name }}</span>
-                    <span
-                        class="text-sm text-gray-500 font-normal"
-                        v-if="comment.created_at"
+                <img
+                    :src="comment.avatar_url"
+                    :alt="comment.author_name"
+                    class="w-12 h-12 rounded-full bg-gray-200 shrink-0 shadow-sm"
+                />
+                <div class="flex-1">
+                    <div
+                        class="font-semibold flex items-center justify-between"
                     >
-                        {{ new Date(comment.created_at).toLocaleDateString() }}
-                    </span>
+                        <span>{{ comment.author_name }}</span>
+                        <span
+                            class="text-sm text-gray-500 font-normal"
+                            v-if="comment.created_at"
+                        >
+                            {{
+                                new Date(
+                                    comment.created_at,
+                                ).toLocaleDateString()
+                            }}
+                        </span>
+                    </div>
+                    <p class="text-gray-700 mt-2">{{ comment.content }}</p>
                 </div>
-                <p class="text-gray-700 mt-2">{{ comment.content }}</p>
             </div>
             <div
                 v-if="post.comments && post.comments.length === 0"
@@ -46,6 +59,27 @@
                     class="text-red-500 text-sm mt-1"
                 >
                     {{ form.errors.author_name }}
+                </div>
+            </div>
+
+            <div>
+                <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700"
+                    >Email
+                    <span class="text-gray-400 font-normal text-xs"
+                        >(will not be published)</span
+                    ></label
+                >
+                <input
+                    type="email"
+                    id="email"
+                    v-model="form.email"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    required
+                />
+                <div v-if="form.errors.email" class="text-red-500 text-sm mt-1">
+                    {{ form.errors.email }}
                 </div>
             </div>
 
@@ -99,6 +133,7 @@ const recaptchaLoaded = ref(false);
 
 const form = useForm({
     author_name: "",
+    email: "",
     content: "",
     recaptcha_token: "",
 });
