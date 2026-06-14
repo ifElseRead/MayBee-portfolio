@@ -49,7 +49,10 @@ class PostController extends Controller
     public function show($slug)
     {
         return Inertia::render('Posts/Show', [
-            'post' => Post::published()->where('slug', $slug)->firstOrFail()
+            'post' => Post::published()->with(['comments' => function ($query) {
+                $query->latest();
+            }])->where('slug', $slug)->firstOrFail(),
+            'recaptchaSiteKey' => config('services.recaptcha.site_key', ''),
         ]);
     }
 }

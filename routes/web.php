@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PostAdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BlogAdminController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Models\ContactMessage;
 use App\Models\LoginLog;
@@ -31,6 +32,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.show');
+Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('posts.comments.store');
 
 Route::get('/sitemap.xml', function () {
     return response()->view('sitemap')->header('Content-Type', 'text/xml');

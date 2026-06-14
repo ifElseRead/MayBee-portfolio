@@ -1,6 +1,7 @@
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import Seo from "@/Components/Seo.vue";
+import CommentSection from "@/Components/CommentSection.vue";
 import { Link } from "@inertiajs/vue3";
 
 defineProps({
@@ -42,7 +43,7 @@ defineProps({
                             </p> -->
                             <img
                                 v-if="post.banner_image"
-                                :src="`/storage/${post.banner_image}`"
+                                :src="`/storage/blog-banners/${post.banner_image}`"
                                 :alt="post.title"
                                 class="w-full sm:rounded-lg shadow-sm border border-gray-200 mt-10"
                             />
@@ -54,6 +55,9 @@ defineProps({
                             :class="{ 'whitespace-pre-wrap': !post.html_body }"
                             v-html="post.html_body || post.body"
                         ></div>
+
+                        <hr class="my-10 border-gray-200" />
+                        <CommentSection :post="post" />
                     </article>
                 </div>
             </div>
