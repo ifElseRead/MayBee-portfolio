@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 
@@ -7,6 +7,10 @@ const props = defineProps({
     messages: Object,
     totalMessages: Number,
     analytics: {
+        type: Array,
+        default: () => [],
+    },
+    topPages: {
         type: Array,
         default: () => [],
     },
@@ -19,6 +23,12 @@ const props = defineProps({
         default: "",
     },
 });
+
+const selectedDay = ref(null);
+
+const selectDay = (day) => {
+    selectedDay.value = day;
+};
 
 const paginationLinks = computed(() => {
     const links = props.messages?.meta?.links || props.messages?.links;
@@ -71,10 +81,16 @@ const deleteMessage = (id) => {
                             v-if="analytics && analytics.length > 0"
                             class="flex flex-wrap gap-4"
                         >
-                            <div
+                            <button
                                 v-for="(day, index) in analytics"
                                 :key="index"
-                                class="flex-1 min-w-[80px] bg-slate-50 border border-slate-100 rounded-lg p-3 text-center"
+                                @click="selectDay(day)"
+                                class="flex-1 min-w-[80px] border rounded-lg p-3 text-center transition-colors focus:outline-none"
+                                :class="
+                                    selectedDay && selectedDay.date === day.date
+                                        ? 'bg-yellow-50 border-yellow-300 shadow-sm'
+                                        : 'bg-slate-50 border-slate-100 hover:bg-slate-100'
+                                "
                             >
                                 <div class="text-xs text-gray-500 mb-1">
                                     {{ day.date }}
@@ -85,14 +101,112 @@ const deleteMessage = (id) => {
                                 <div class="text-xs text-gray-400 mt-1">
                                     {{ day.pageViews }} views
                                 </div>
-                            </div>
+                            </button>
                         </div>
                         <div
                             v-else
                             class="text-sm text-gray-400 p-4 bg-slate-50 rounded-lg border border-slate-100 text-center"
                         >
-                            Analytics data is not available yet. Please ensure
-                            Google Analytics is configured.
+                            Analytics data is not available yet.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expanded Page Views Section -->
+                <div class="grid gap-6 sm:grid-cols-2 mb-6">
+                    <!-- Top Pages All Time (Last 7 Days) -->
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                    >
+                        <div class="p-6">
+                            <div class="text-sm font-medium text-gray-500 mb-4">
+                                Most Viewed Pages (Last 7 Days)
+                            </div>
+                            <ul
+                                v-if="topPages.length > 0"
+                                class="divide-y divide-gray-100"
+                            >
+                                <li
+                                    v-for="page in topPages"
+                                    :key="page.url"
+                                    class="py-2 flex items-center justify-between"
+                                >
+                                    <span
+                                        class="text-sm text-gray-700 truncate mr-2"
+                                        :title="page.url"
+                                        >{{ page.url }}</span
+                                    >
+                                    <span
+                                        class="text-sm font-semibold text-gray-900 bg-gray-100 px-2 py-0.5 rounded-full"
+                                        >{{ page.views }}</span
+                                    >
+                                </li>
+                            </ul>
+                            <div v-else class="text-sm text-gray-400">
+                                No page views recorded yet.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Day Pages -->
+                    <div
+                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                    >
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="text-sm font-medium text-gray-500">
+                                    {{
+                                        selectedDay
+                                            ? `Views on ${selectedDay.date}`
+                                            : "Select a day to view details"
+                                    }}
+                                </div>
+                                <button
+                                    v-if="selectedDay"
+                                    @click="selectedDay = null"
+                                    class="text-xs text-gray-400 hover:text-gray-600 font-medium"
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                            <template v-if="selectedDay">
+                                <ul
+                                    v-if="
+                                        selectedDay.pages &&
+                                        selectedDay.pages.length > 0
+                                    "
+                                    class="divide-y divide-gray-100"
+                                >
+                                    <li
+                                        v-for="page in selectedDay.pages"
+                                        :key="page.url"
+                                        class="py-2 flex items-center justify-between"
+                                    >
+                                        <span
+                                            class="text-sm text-gray-700 truncate mr-2"
+                                            :title="page.url"
+                                            >{{ page.url }}</span
+                                        >
+                                        <span
+                                            class="text-sm font-semibold text-gray-900 bg-gray-100 px-2 py-0.5 rounded-full"
+                                            >{{ page.views }}</span
+                                        >
+                                    </li>
+                                </ul>
+                                <div
+                                    v-else
+                                    class="text-sm text-gray-400 text-center py-4 bg-gray-50 rounded-lg"
+                                >
+                                    No page views recorded for this day.
+                                </div>
+                            </template>
+                            <div
+                                v-else
+                                class="text-sm text-gray-400 py-4 text-center bg-gray-50 rounded-lg"
+                            >
+                                Click on a date card above to view page stats
+                                for that day.
+                            </div>
                         </div>
                     </div>
                 </div>

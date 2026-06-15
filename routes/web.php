@@ -9,6 +9,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Models\ContactMessage;
 use App\Models\LoginLog;
+use App\Models\PageView;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,7 +22,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 Route::get('/contact', function () {
     return Inertia::render('Contact', [
         'recaptchaSiteKey' => env('RECAPTCHA_SITE_KEY', ''),
@@ -39,7 +40,43 @@ Route::get('/sitemap.xml', function () {
 });
 
 Route::get('/dashboard', function () {
-    $analyticsData = [];
+    // Get raw aggregated data from the database grouped by date
+    $analyticsRaw = PageView::selectRaw('DATE(created_at) as date, count(*) as pageViews, count(DISTINCT ip_address) as visitors')
+        ->where('created_at', '>=', now()->subDays(6)->startOfDay())
+        ->groupByRaw('DATE(created_at)')
+        ->get()
+        ->keyBy('date');
+
+    // Detailed page views per date
+    $pagesRaw = PageView::selectRaw('DATE(created_at) as date, url, count(*) as views')
+        ->where('created_at', '>=', now()->subDays(6)->startOfDay())
+        ->groupByRaw('DATE(created_at), url')
+        ->orderByDesc('views')
+        ->get()
+        ->groupBy('date');
+
+    // Map over the last 7 days to ensure dates with zero traffic still show up in the UI
+    $analyticsData = collect(range(6, 0))->map(function ($daysAgo) use ($analyticsRaw, $pagesRaw) {
+        $dateString = now()->subDays($daysAgo)->format('Y-m-d');
+        $dayData = $analyticsRaw->get($dateString);
+        $dayPages = $pagesRaw->get($dateString, collect())->map(fn($item) => ['url' => $item->url, 'views' => $item->views])->toArray();
+
+        return [
+            'date' => now()->subDays($daysAgo)->format('M j'),
+            'visitors' => $dayData ? $dayData->visitors : 0,
+            'pageViews' => $dayData ? $dayData->pageViews : 0,
+            'pages' => $dayPages,
+        ];
+    })->toArray();
+
+    // Global top pages for the last 7 days
+    $topPages = PageView::selectRaw('url, count(*) as views')
+        ->where('created_at', '>=', now()->subDays(6)->startOfDay())
+        ->groupBy('url')
+        ->orderByDesc('views')
+        ->limit(10)
+        ->get()
+        ->toArray();
 
     $logPath = storage_path('logs/laravel.log');
     $systemLogs = '';
@@ -52,6 +89,7 @@ Route::get('/dashboard', function () {
         'messages' => ContactMessage::orderBy('created_at', 'desc')->paginate(5),
         'totalMessages' => ContactMessage::count(),
         'analytics' => $analyticsData,
+        'topPages' => $topPages,
         'loginLogs' => LoginLog::with('user')->latest()->paginate(3, ['*'], 'logins_page'),
         'systemLogs' => $systemLogs,
     ]);
