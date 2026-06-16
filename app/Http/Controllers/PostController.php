@@ -35,7 +35,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
-            'topic' => 'required|string|min:5|max:255',
+            'topic' => 'required|string|min:5|max:2500',
         ]);
 
         GenerateBlogPostJob::dispatch($validated['topic'], $post);
