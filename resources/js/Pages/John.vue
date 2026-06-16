@@ -118,9 +118,9 @@ const handleTrigger = () => {
                             The Intro
                         </h2>
                         <p class="text-lg text-slate-700 leading-relaxed mt-2">
-                            I’m an Irish guy currently loving life in the UK
-                            🇮🇪🇬🇧. I build modern web apps using PHP/Laravel,
-                            JS/Vue, and my one true love... Tailwind CSS 💟.
+                            I’m an Irish guy enjoying life in the UK 🇮🇪🇬🇧. I
+                            build modern web apps using PHP/Laravel, JS/Vue, and
+                            my one true love... Tailwind CSS 💟.
                         </p>
                     </section>
 

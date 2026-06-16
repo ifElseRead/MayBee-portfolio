@@ -30,6 +30,13 @@ const selectDay = (day) => {
     selectedDay.value = day;
 };
 
+const maxViews = computed(() => {
+    if (!props.analytics || props.analytics.length === 0) return 0;
+    return Math.max(
+        ...props.analytics.map((d) => Math.max(d.pageViews, d.visitors)),
+    );
+});
+
 const paginationLinks = computed(() => {
     const links = props.messages?.meta?.links || props.messages?.links;
     return Array.isArray(links) ? links : [];
@@ -74,34 +81,119 @@ const deleteMessage = (id) => {
                     class="mb-6 bg-white overflow-hidden shadow-sm sm:rounded-lg"
                 >
                     <div class="p-6">
-                        <div class="text-sm font-medium text-gray-500 mb-4">
-                            Website Traffic (Last 7 Days)
-                        </div>
-                        <div
-                            v-if="analytics && analytics.length > 0"
-                            class="flex flex-wrap gap-4"
-                        >
-                            <button
-                                v-for="(day, index) in analytics"
-                                :key="index"
-                                @click="selectDay(day)"
-                                class="flex-1 min-w-[80px] border rounded-lg p-3 text-center transition-colors focus:outline-none"
-                                :class="
-                                    selectedDay && selectedDay.date === day.date
-                                        ? 'bg-yellow-50 border-yellow-300 shadow-sm'
-                                        : 'bg-slate-50 border-slate-100 hover:bg-slate-100'
-                                "
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="text-sm font-medium text-gray-500">
+                                Website Traffic (Last 7 Days)
+                            </div>
+                            <div
+                                class="flex items-center gap-4 text-xs font-medium"
                             >
-                                <div class="text-xs text-gray-500 mb-1">
-                                    {{ day.date }}
+                                <div class="flex items-center gap-1.5">
+                                    <div
+                                        class="w-3 h-3 bg-yellow-400 rounded-sm"
+                                    ></div>
+                                    Views
                                 </div>
-                                <div class="text-xl font-bold text-gray-900">
-                                    {{ day.visitors }}
+                                <div class="flex items-center gap-1.5">
+                                    <div
+                                        class="w-3 h-3 bg-slate-300 rounded-sm"
+                                    ></div>
+                                    Unique
                                 </div>
-                                <div class="text-xs text-gray-400 mt-1">
-                                    {{ day.pageViews }} views
+                            </div>
+                        </div>
+
+                        <div v-if="analytics && analytics.length > 0">
+                            <!-- CSS Bar Chart -->
+                            <div
+                                class="flex items-end h-48 gap-2 mb-6 border-b border-gray-100 pb-2"
+                            >
+                                <div
+                                    v-for="(day, index) in analytics"
+                                    :key="'chart-' + index"
+                                    class="flex-1 flex flex-col justify-end items-center group cursor-pointer relative h-full"
+                                    @click="selectDay(day)"
+                                >
+                                    <div
+                                        class="flex items-end justify-center w-full gap-1 h-full pt-6"
+                                    >
+                                        <!-- Unique Visitors Bar -->
+                                        <div
+                                            class="w-full max-w-[12px] sm:max-w-[20px] bg-slate-300 rounded-t-sm transition-all group-hover:bg-slate-400 relative"
+                                            :style="{
+                                                height: maxViews
+                                                    ? `${(day.visitors / maxViews) * 100}%`
+                                                    : '0%',
+                                            }"
+                                        >
+                                            <span
+                                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-semibold text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                                                >{{ day.visitors }}</span
+                                            >
+                                        </div>
+                                        <!-- Page Views Bar -->
+                                        <div
+                                            class="w-full max-w-[12px] sm:max-w-[20px] bg-yellow-400 rounded-t-sm transition-all group-hover:bg-yellow-500 relative"
+                                            :style="{
+                                                height: maxViews
+                                                    ? `${(day.pageViews / maxViews) * 100}%`
+                                                    : '0%',
+                                            }"
+                                        >
+                                            <span
+                                                class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-semibold text-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                                                >{{ day.pageViews }}</span
+                                            >
+                                        </div>
+                                    </div>
                                 </div>
-                            </button>
+                            </div>
+
+                            <!-- Clickable Cards -->
+                            <div class="flex flex-wrap gap-4">
+                                <button
+                                    v-for="(day, index) in analytics"
+                                    :key="index"
+                                    @click="selectDay(day)"
+                                    class="flex-1 min-w-[80px] border rounded-lg p-3 text-center transition-colors focus:outline-none flex flex-col items-center"
+                                    :class="
+                                        selectedDay &&
+                                        selectedDay.date === day.date
+                                            ? 'bg-yellow-50 border-yellow-300 shadow-sm'
+                                            : 'bg-slate-50 border-slate-100 hover:bg-slate-100'
+                                    "
+                                >
+                                    <div
+                                        class="text-xs text-gray-500 mb-2 font-medium"
+                                    >
+                                        {{ day.date }}
+                                    </div>
+                                    <div
+                                        class="flex justify-center gap-4 w-full"
+                                    >
+                                        <div class="flex flex-col items-center">
+                                            <span
+                                                class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-0.5"
+                                                >Unique</span
+                                            >
+                                            <span
+                                                class="text-lg leading-none font-bold text-slate-700"
+                                                >{{ day.visitors }}</span
+                                            >
+                                        </div>
+                                        <div class="flex flex-col items-center">
+                                            <span
+                                                class="text-[10px] font-bold uppercase tracking-wider text-yellow-600/70 mb-0.5"
+                                                >Views</span
+                                            >
+                                            <span
+                                                class="text-lg leading-none font-bold text-yellow-600"
+                                                >{{ day.pageViews }}</span
+                                            >
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
                         <div
                             v-else
