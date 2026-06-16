@@ -1,6 +1,7 @@
 <script setup>
 import PublicLayout from "@/Layouts/PublicLayout.vue";
 import Seo from "@/Components/Seo.vue";
+import CommentSection from "@/Components/CommentSection.vue";
 import { Link } from "@inertiajs/vue3";
 
 defineProps({
@@ -54,6 +55,9 @@ defineProps({
                             :class="{ 'whitespace-pre-wrap': !post.html_body }"
                             v-html="post.html_body || post.body"
                         ></div>
+
+                        <hr class="my-10 border-gray-200" />
+                        <CommentSection :post="post" />
                     </article>
                 </div>
             </div>
